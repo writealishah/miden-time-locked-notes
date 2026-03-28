@@ -16,6 +16,8 @@ function App() {
   const [recipient, setRecipient] = useState('');
   const [unlockDate, setUnlockDate] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [walletAddress, setWalletAddress] = useState<string | null>(null);
+  const [isConnecting, setIsConnecting] = useState(false);
   const [notes, setNotes] = useState<LockedNote[]>([
     {
       id: '0x3a21f9e2',
@@ -34,6 +36,37 @@ function App() {
       if (blockNum) setEpoch(blockNum);
     }).catch(console.error);
   }, []);
+
+  const handleConnectWallet = async () => {
+    if (walletAddress) {
+      setWalletAddress(null); // Disconnect
+      return;
+    }
+    setIsConnecting(true);
+    
+    try {
+      // @ts-ignore - Safely check if the Miden Wallet Extension injected itself into the browser
+      if (typeof window !== 'undefined' && window.miden) {
+        // @ts-ignore
+        const accounts = await window.miden.request({ method: 'connect' });
+        if (accounts && accounts.length > 0) {
+          // Format long addresses for the UI
+          const address = accounts[0];
+          setWalletAddress(`${address.slice(0, 6)}...${address.slice(-4)}`);
+          setIsConnecting(false);
+          return;
+        }
+      }
+    } catch (err) {
+      console.log("Extension connection threw an error, falling back to UI Simulation Mode.");
+    }
+
+    // Fallback for the Twitter Demo
+    setTimeout(() => {
+      setWalletAddress('0x9F42...3eC1'); 
+      setIsConnecting(false);
+    }, 1200);
+  };
 
   const handleCreateNote = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,8 +110,20 @@ function App() {
           </div>
         </div>
 
-        <button className="btn-secondary">
-          Connect Wallet
+        <button 
+          onClick={handleConnectWallet}
+          className={`btn-secondary transition-all ${walletAddress ? 'border-accent/30 bg-accent/5' : ''}`}
+        >
+          {isConnecting ? (
+            <span className="flex items-center gap-2 text-textMuted"><Loader2 className="w-4 h-4 animate-spin" /> Connecting...</span>
+          ) : walletAddress ? (
+            <span className="flex items-center gap-2 text-textMain">
+              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>
+              <span className="font-mono">{walletAddress}</span>
+            </span>
+          ) : (
+            "Connect Wallet"
+          )}
         </button>
       </header>
 
