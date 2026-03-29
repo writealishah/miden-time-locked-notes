@@ -18,7 +18,7 @@ function App() {
   const [isConnecting, setIsConnecting] = useState(false);
   const [notes, setNotes] = useState<LockedNote[]>([
     {
-      id: '0x3a21f9e2',
+      id: '3a21f9e2b4',
       recipient: '0x12bb88ab',
       amount: '500',
       unlockDate: '2026-12-01',
