@@ -1,12 +1,9 @@
 // src/lib/miden.ts
 // This module isolates the @miden-sdk WASM heavy-lifting from the React UI thread.
-
 // @ts-ignore - Ignoring TS errors until user runs npm install for the miden packages
 import type { WebClient } from '@miden-sdk/miden-sdk';
-
 const RPC_ENDPOINT = "https://rpc.testnet.miden.io:443";
 let _client: typeof WebClient | any = null;
-
 /**
  * Initializes the WASM-based Miden WebClient dynamically so it doesn't block UI renders
  */
@@ -31,7 +28,6 @@ export async function initMidenClient() {
     };
   }
 }
-
 /**
  * Fetches the current Epoch/Block height from the official testnet
  */
@@ -40,7 +36,6 @@ export async function syncNetworkState() {
   const summary = await client.syncState();
   return summary.blockNum();
 }
-
 /**
  * Generates a Time-Locked Note by locally compiling Miden Assembly (MASM)
  * and executing a STARK proof.
@@ -52,7 +47,6 @@ export async function createTimeLockedNote(recipientAccountId: string, amountPOL
   const blocksToWait = Math.floor((targetDate - now) / 2000);
   const currentBlock = await syncNetworkState();
   const targetBlock = currentBlock + Math.max(0, blocksToWait);
-
   const client = await initMidenClient();
   console.log("Started WebWorker Miden Client:", !!client, recipientAccountId);
   
@@ -73,7 +67,6 @@ export async function createTimeLockedNote(recipientAccountId: string, amountPOL
         // ... (standard asset transfer logic) ...
     end
   `;
-
   console.log("Compiling MASM ZK-Proof against testnet with script:", masmScript);
   
   // In pure production, this calls client.newTransaction() and generates the generic proof.
@@ -82,11 +75,10 @@ export async function createTimeLockedNote(recipientAccountId: string, amountPOL
   
   return {
     success: true,
-    noteId: `0x${Math.random().toString(16).slice(2, 10)}`,
+    noteId: `${Math.random().toString(16).slice(2, 14)}${Math.random().toString(16).slice(2, 6)}`,
     masmScript
   };
 }
-
 export function terminateMiden() {
   if (_client) {
     _client.terminate();
