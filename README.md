@@ -1,4 +1,6 @@
 # 0xMiden Epoch: ZK Time-Locked Notes Interface
+https://github.com/user-attachments/assets/aa4ed40e-60fa-4dfe-9f04-c42fe565a56a
+
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Status](https://img.shields.io/badge/Status-Alpha%20(Testnet)-orange.svg)
 ![Blockchain](https://img.shields.io/badge/Network-0xMiden-purple)
