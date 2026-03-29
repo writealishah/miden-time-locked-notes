@@ -19,7 +19,7 @@ function App() {
   const [notes, setNotes] = useState<LockedNote[]>([
     {
       id: '3a21f9e2b4',
-      recipient: '0x12bb88ab',
+      recipient: 'mtst1q82b...',
       amount: '500',
       unlockDate: '2026-12-01',
       status: 'locked'
