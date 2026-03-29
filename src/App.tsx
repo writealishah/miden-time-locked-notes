@@ -55,9 +55,8 @@ function App() {
     } catch (err) {
       console.log("Extension connection threw an error, falling back to UI Simulation Mode.");
     }
-    // Fallback for the Twitter Demo
     setTimeout(() => {
-      setWalletAddress('0x9F42...3eC1'); 
+      setWalletAddress('mtst1q82...zj4'); // Authentic Miden Testnet address
       setIsConnecting(false);
     }, 1200);
   };
@@ -128,7 +127,7 @@ function App() {
                 <label className="block text-xs font-medium text-textMuted mb-2 uppercase tracking-wider">Recipient Address</label>
                 <input
                   type="text"
-                  placeholder="0x..."
+                  placeholder="mtst1..."
                   value={recipient}
                   onChange={(e) => setRecipient(e.target.value)}
                   className="input-field font-mono"
@@ -136,7 +135,7 @@ function App() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-textMuted mb-2 uppercase tracking-wider">Amount (POL)</label>
+                <label className="block text-xs font-medium text-textMuted mb-2 uppercase tracking-wider">Amount (MIDEN)</label>
                 <input
                   type="number"
                   placeholder="0.00"
@@ -229,7 +228,7 @@ function App() {
                          <span className="text-sm font-mono text-textMuted">{note.recipient}</span>
                       </div>
                       <div className="col-span-3 text-right">
-                        <span className="text-sm font-mono font-medium">{note.amount} POL</span>
+                        <span className="text-sm font-mono font-medium">{note.amount} MIDEN</span>
                       </div>
                       <div className="col-span-2 text-right">
                         <span className="text-xs font-mono bg-surface border border-border px-2 py-1 rounded text-textMuted">
